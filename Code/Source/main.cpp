@@ -14,11 +14,16 @@ using namespace std;
  */
 int main(int argc, char** argv) 
 {
-    int N = 16;
+    int N = 4;
     ChessBoard c(N);
     
-    c.DrawConnection(4,4);
+    //c.DrawTileConnection(4,4);
+    int Z;
     
+    int list[4] = {0,1,3,2};
+    
+    Z = c.PlaceQueens(list);
+    cout << Z;
     return 0;
 }
 

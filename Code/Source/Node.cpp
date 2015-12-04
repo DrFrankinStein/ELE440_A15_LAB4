@@ -194,3 +194,23 @@ void Node::NodeExternalIDInit(int& id)
 {
     id = 0;
 }
+
+bool Node::GetIsTargeted(void)
+{
+    return isTargeted;
+}
+
+void Node::SetIsTargeted(bool state)
+{
+    isTargeted = state;
+}
+    
+bool Node::GetIsQueen(void)
+{
+    return isQueen;
+}
+
+void Node::SetIsQueen(bool state)
+{
+    isQueen = state;
+}

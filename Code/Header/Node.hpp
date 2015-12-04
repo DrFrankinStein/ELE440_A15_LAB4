@@ -44,11 +44,20 @@ public :
     static void Connect(Node &n1, Node &n2, int weightN1ToN2, int weightN2ToN1);
     static void NodeExternalIDInit(int &id);
     
+    bool GetIsTargeted(void);
+    void SetIsTargeted(bool state);
+    
+    bool GetIsQueen(void);
+    void SetIsQueen(bool state);
+    
 private:
     static int nbNodes; //Nombre de noeuds crees
     int ID; //Identifiant du noeud
     bool isVisited = false; 
     int nbNeighbors = 0; //Nombre de voisins du noeud
+    
+    bool isQueen = false;
+    bool isTargeted = false;
     
     vector<int> linkedNeighbors; // Liste des voisins (index)
     vector<int> linkedWeights; // Liste des poids des connections avec les voisins

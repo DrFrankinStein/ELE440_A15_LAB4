@@ -76,14 +76,6 @@ void ChessBoard::ConnectTiles(void)
     
     cout << "Initialisation de la liste des connexions : FIN" << endl;
     
-    /*for(int x1 = 0 ; x1 < N; x1++)
-        for(int y1 = 0 ; y1 < N; y1++)
-            for(int x2 = 0; x2 < N; x2++)
-                for(int y2 = 0; y2 < N; y2++)
-                {
-                    connectionGrid[x1][y1][x2][y2] = -1;
-                }*/
-    
     cout << "Calcul de la liste des connexions : " << endl;
     
     for(int x1 = 0; x1 < N; x1++)
@@ -154,7 +146,7 @@ void ChessBoard::ConnectTiles(void)
     cout << "Nettoyage de la liste des connexions : FIN " << endl;
 }
 
-void ChessBoard::DrawConnection(int x, int y)
+void ChessBoard::DrawTileConnection(int x, int y)
 {
     //tiles[x][y]->PrintConnection();
     
@@ -174,3 +166,37 @@ void ChessBoard::DrawConnection(int x, int y)
     }
 }
 
+int ChessBoard::PlaceQueens(int* queenList)
+{
+    int currentNeighbor;
+    int nbQueen = 0;
+    
+    for(int index = 0; index < N; index++)
+    {
+        if(!tiles[index][queenList[index]]->GetIsTargeted())
+        {
+            tiles[index][queenList[index]]->SetIsQueen(true);
+            nbQueen++;
+            tiles[index][queenList[index]]->SetIsTargeted(true);
+            for(int indexNeighbor = 0; indexNeighbor < tiles[index][queenList[index]]->GetNbNeighbors(); indexNeighbor++)
+            {
+                currentNeighbor = tiles[index][queenList[index]]->GetNeighbor(indexNeighbor);
+                tiles[currentNeighbor/N][currentNeighbor%N]->SetIsTargeted(true);
+            }
+        }
+    }
+    
+    return nbQueen;
+}
+
+void ChessBoard::ResetChessBoard(void)
+{
+    for(int i = 0 ; i < N; i++)
+    {
+        for(int j = 0 ; j < N; j++)
+        {
+            tiles[i][j]->SetIsTargeted(false);
+            tiles[i][j]->SetIsQueen(false);
+        }
+    }
+}

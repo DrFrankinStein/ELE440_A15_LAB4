@@ -17,7 +17,9 @@ public:
     ChessBoard(int n);
     virtual ~ChessBoard();
     
-    void DrawConnection(int x, int y);
+    void DrawTileConnection(int x, int y);
+    int PlaceQueens(int* queenList);
+    void ResetChessBoard(void);
     
 private:
     
@@ -25,7 +27,6 @@ private:
     int N;
     int nbTiles;
     Node ***tiles;
-    
 
 };
 
