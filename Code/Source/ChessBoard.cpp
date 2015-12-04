@@ -15,16 +15,24 @@ ChessBoard::ChessBoard()
 ChessBoard::ChessBoard(int n) 
 {
     N = n;
+    cout << "Initialisation d'un echequier de taille " << N << "x" << N << ":" << endl;
     Node::NodeExternalIDInit(nbTiles);
-    tiles = new Node**[n];
-    for(int i = 0; i < n; i++)
+    cout << "Initialisation des tuiles de l'echequier :" << endl;
+    tiles = new Node**[N];
+    for(int i = 0; i < N; i++)
     {
-        tiles[i] = new Node*[n];
-        for(int j = 0; j < n ; j++)
-           tiles[i][j] = new Node(nbTiles);
+        tiles[i] = new Node*[N];
+        for(int j = 0; j < N ; j++)
+        {
+            cout << "(" << ((100*(i*N+j+1))/(N*N)) << "," << ((1000*(i*N+j+1))/(N*N))%10 <<"%)" << "\r";
+            tiles[i][j] = new Node(nbTiles);
+        }
     }
+    cout << "Initialisation des tuiles de l'echequier : FIN" << endl;
     
     ConnectTiles();
+    
+    cout << "Initialisation d'un echequier de taille " << n << "x" << n << ": FIN" << endl << endl;
 }
 
 ChessBoard::~ChessBoard() 
@@ -42,20 +50,46 @@ ChessBoard::~ChessBoard()
 
 void ChessBoard::ConnectTiles(void)
 {
-    int connectionGrid[N][N][N][N];
+    //int connectionGrid[N][N][N][N];
+    int **** connectionGrid = new int***[N];
     int rayon;
     
-    for(int x1 = 0 ; x1 < N; x1++)
+    cout << "Initialisation de la liste des connexions : " << endl; 
+    
+    for(int i = 0; i<N;i++)
+    {
+        connectionGrid[i] = new int**[N];
+        for(int j = 0; j<N;j++)
+        {
+            cout << "(" << ((100*(i*N+j+1))/(N*N)) << "," << ((1000*(i*N+j+1))/(N*N))%10 <<"%)" << "\r";
+            connectionGrid[i][j] = new int*[N];
+            for(int k = 0; k<N;k++)
+            {
+                connectionGrid[i][j][k] = new int[N];
+                for(int l = 0; l<N;l++)
+                {
+                    connectionGrid[i][j][k][l] = -1;
+                }
+            }
+        }
+    }
+    
+    cout << "Initialisation de la liste des connexions : FIN" << endl;
+    
+    /*for(int x1 = 0 ; x1 < N; x1++)
         for(int y1 = 0 ; y1 < N; y1++)
             for(int x2 = 0; x2 < N; x2++)
                 for(int y2 = 0; y2 < N; y2++)
                 {
                     connectionGrid[x1][y1][x2][y2] = -1;
-                }
+                }*/
+    
+    cout << "Calcul de la liste des connexions : " << endl;
     
     for(int x1 = 0; x1 < N; x1++)
         for(int y1 = 0; y1 < N; y1++)
         {
+            cout << "(" << ((100*(x1*N+y1+1))/(N*N)) << "," << ((1000*(x1*N+y1+1))/(N*N))%10 <<"%)" << "\r";
             rayon = 1;
             connectionGrid[x1][y1][x1][y1] = 1;
             while(((x1+rayon)<N)||((x1-rayon)>=0)||((y1+rayon)<N)||((y1-rayon)>=0))
@@ -88,17 +122,41 @@ void ChessBoard::ConnectTiles(void)
             }
         }
     
+    cout << "Calcul de la liste des connexions :  FIN " << endl;
+    cout << "Application de la liste des connexions : " << endl;
+    
     for(int x1 = 0 ; x1 < N; x1++)
         for(int y1 = 0 ; y1 < N; y1++)
+        {    
+            cout << "(" << ((100*(x1*N+y1+1))/(N*N)) << "," << ((1000*(x1*N+y1+1))/(N*N))%10 <<"%)" << "\r";
             for(int x2 = 0; x2 < N; x2++)
                 for(int y2 = 0; y2 < N; y2++)
                     if(x1!=x2 || y1!=y2)
                         Node::Connect(*tiles[x1][y1], *tiles[x2][y2], connectionGrid[x1][y1][x2][y2], connectionGrid[x2][y2][x1][y1]);
+        }
+    cout << "Application de la liste des connexions : FIN" << endl;
+    cout << "Nettoyage de la liste des connexions : " << endl;
+                
+    for(int i = 0; i<N;i++)
+    {
+        for(int j = 0; j<N;j++)
+        {
+            cout << "(" << ((100*(i*N+j+1))/(N*N)) << "," << ((1000*(i*N+j+1))/(N*N))%10 <<"%)" << "\r";
+            for(int k = 0; k<N;k++)
+            {
+                delete connectionGrid[i][j][k];
+            }
+            delete connectionGrid[i][j];    
+        }
+        delete connectionGrid[i];
+    }
+    delete connectionGrid;
+    cout << "Nettoyage de la liste des connexions : FIN " << endl;
 }
 
 void ChessBoard::DrawConnection(int x, int y)
 {
-    tiles[x][y]->PrintConnection();
+    //tiles[x][y]->PrintConnection();
     
     for(int i = 0; i < N; i++)
     {
