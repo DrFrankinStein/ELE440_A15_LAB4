@@ -44,8 +44,8 @@ public :
     static void Connect(Node &n1, Node &n2, int weightN1ToN2, int weightN2ToN1);
     static void NodeExternalIDInit(int &id);
     
-    bool GetIsTargeted(void);
-    void SetIsTargeted(bool state);
+    int GetNbConflict(void);
+    void SetNbConflict(int nb);
     
     bool GetIsQueen(void);
     void SetIsQueen(bool state);
@@ -57,7 +57,7 @@ private:
     int nbNeighbors = 0; //Nombre de voisins du noeud
     
     bool isQueen = false;
-    bool isTargeted = false;
+    int nbConflict = 0;
     
     vector<int> linkedNeighbors; // Liste des voisins (index)
     vector<int> linkedWeights; // Liste des poids des connections avec les voisins

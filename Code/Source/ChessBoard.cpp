@@ -164,16 +164,30 @@ void ChessBoard::DrawTileConnection(int x, int y)
         }
         cout << endl;
     }
+    
 }
 
-int ChessBoard::PlaceQueens(int* queenList)
+void ChessBoard::DrawTileFitness(void)
 {
-    int currentNeighbor;
+    for(int i = 0; i < N; i++)
+    {
+        cout << " ";
+        for(int j = 0; j < N; j++)
+        {
+            cout << tiles[i][j]->GetNbConflict() << "\t";
+        }
+        cout << endl;
+    }    
+}
+
+//int ChessBoard::PlaceQueens(int* queenList)
+//{
+    /*int currentNeighbor;
     int nbQueen = 0;
     
     for(int index = 0; index < N; index++)
     {
-        if(!tiles[index][queenList[index]]->GetIsTargeted())
+        if(tiles[index][queenList[index]]->GetIsTargeted())
         {
             tiles[index][queenList[index]]->SetIsQueen(true);
             nbQueen++;
@@ -186,7 +200,32 @@ int ChessBoard::PlaceQueens(int* queenList)
         }
     }
     
-    return nbQueen;
+    return nbQueen;*/
+//}   
+
+int ChessBoard::CalculateFitness(int* queenList)
+{
+    int currentNeighbor;
+    int fitness = 0;
+    
+    ResetChessBoard();
+    
+    for(int index = 0; index < N; index++)
+    {
+        for(int indexNeighbor = 0; indexNeighbor < tiles[index][queenList[index]]->GetNbNeighbors(); indexNeighbor++)
+        {
+            currentNeighbor = tiles[index][queenList[index]]->GetNeighbor(indexNeighbor);
+            tiles[currentNeighbor/N][currentNeighbor%N]->SetNbConflict(tiles[currentNeighbor/N][currentNeighbor%N]->GetNbConflict()+1);
+        }
+    }
+    
+    for(int index = 0; index < N; index++)
+    {
+        fitness += tiles[index][queenList[index]]->GetNbConflict();
+    }
+    
+    return fitness;
+    
 }
 
 void ChessBoard::ResetChessBoard(void)
@@ -195,8 +234,8 @@ void ChessBoard::ResetChessBoard(void)
     {
         for(int j = 0 ; j < N; j++)
         {
-            tiles[i][j]->SetIsTargeted(false);
-            tiles[i][j]->SetIsQueen(false);
+            tiles[i][j]->SetNbConflict(0);
+            //tiles[i][j]->SetIsQueen(false);
         }
     }
 }

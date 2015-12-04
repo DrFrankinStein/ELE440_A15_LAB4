@@ -26,7 +26,7 @@ using namespace std;
 void start(void)
 {
     // Definition des variables
-    
+    srand(time(NULL));
     int option;
     int N; // Nombre de reines
     int P; // Nombre de Chromosomes
@@ -36,7 +36,7 @@ void start(void)
     
     // Debut du programme
     cout << "ELE440 - LABORATOIRE 4" << endl;
-    cout << "Algorithmes genetiques" << endl;
+    cout << "Algorithmes genetiques" << endl << endl;
     
     do
     {

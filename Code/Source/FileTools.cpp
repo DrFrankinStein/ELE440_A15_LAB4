@@ -14,6 +14,8 @@
 #include <climits>
 #include <ctime>
 
+#include "../Header/FileTools.hpp"
+
 using namespace std;
 
 int ** LoadFromFile(const char * fileName, int &P, int &N)

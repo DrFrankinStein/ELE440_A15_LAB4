@@ -195,14 +195,14 @@ void Node::NodeExternalIDInit(int& id)
     id = 0;
 }
 
-bool Node::GetIsTargeted(void)
+int Node::GetNbConflict(void)
 {
-    return isTargeted;
+    return nbConflict;
 }
 
-void Node::SetIsTargeted(bool state)
+void Node::SetNbConflict(int nb)
 {
-    isTargeted = state;
+    nbConflict = nb;
 }
     
 bool Node::GetIsQueen(void)
