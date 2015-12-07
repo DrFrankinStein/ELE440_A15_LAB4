@@ -47,7 +47,7 @@ int ** LoadFromFile(const char * fileName, int &P, int &N)
                 }
                 else
                 {
-                    if(c=='\t' || c == '\n')
+                    if(c=='\t' || c == '\n' || c == ' ')
                     {
                         sscanf(buffer.c_str(),"%i",&tmp); 
                         switch(row)

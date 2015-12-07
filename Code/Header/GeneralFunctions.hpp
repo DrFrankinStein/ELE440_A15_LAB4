@@ -11,13 +11,13 @@
 
 #include "../Header/ChessBoard.hpp"
 
-void GenererChromosomes(int **tableau, int P, int N);
+long GenererChromosomes(int **tableau, int P, int N);
 void xChange (int index1, int index2, int *matrix);
 void shiftLeft(int N, int *matrix);
 void shiftRight(int N, int *matrix);
-void Recombinaison(int N, int P, int **parent, int **enfant);
-void Mutation(int N, int P, int **enfant);
-void Combat(int N, int P, int **parent, int **enfant, ChessBoard *board);
+unsigned long long Recombinaison(int N, int P, int **parent, int **enfant);
+unsigned long long Mutation(int N, int P, int **enfant);
+unsigned long long Combat(int N, int P, int **parent, int **enfant, ChessBoard *board);
 
 #endif /* GENERALFUNCTIONS_HPP */
 

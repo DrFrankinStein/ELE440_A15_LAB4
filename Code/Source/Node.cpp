@@ -136,6 +136,9 @@ void Node::Connect(Node &n1, Node &n2, int weightN1ToN2, int weightN2ToN1)
     n2.AddConnection(n1, weightN2ToN1);
 }
 
+/**
+ * Permet d'imprimer les connexions des noeuds
+ */
 void Node::PrintConnection(void)
 {
     cout << "(" << ID << ")" << endl;
@@ -171,6 +174,9 @@ int Node::GetWeight(int index)
     return linkedWeights[index];
 }
 
+/**
+ * Tri les voisins du Noeud par ordre croissant de poids
+ */
 void Node::SortNeighborsWeight(void)
 {
     int tmp1, tmp2, j;
@@ -190,6 +196,10 @@ void Node::SortNeighborsWeight(void)
     }
 }
 
+/**
+ * Initialise le compteur pour identifier les noeuds
+ * @param id
+ */
 void Node::NodeExternalIDInit(int& id)
 {
     id = 0;

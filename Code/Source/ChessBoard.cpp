@@ -12,6 +12,10 @@ ChessBoard::ChessBoard()
     ChessBoard(8);
 }
 
+/**
+ * Permet de créer un échiquier de taille n x n
+ * @param n taille de l'échiquier
+ */
 ChessBoard::ChessBoard(int n) 
 {
     N = n;
@@ -48,6 +52,9 @@ ChessBoard::~ChessBoard()
     delete tiles;
 }
 
+/**
+ * Permet de calculer les connections entre les noeuds
+ */
 void ChessBoard::ConnectTiles(void)
 {
     //int connectionGrid[N][N][N][N];
@@ -146,6 +153,11 @@ void ChessBoard::ConnectTiles(void)
     cout << "Nettoyage de la liste des connexions : FIN " << endl;
 }
 
+/**
+ * Affiche les tuiles connectées en une case (x,y)
+ * @param x
+ * @param y
+ */
 void ChessBoard::DrawTileConnection(int x, int y)
 {
     //tiles[x][y]->PrintConnection();
@@ -167,6 +179,9 @@ void ChessBoard::DrawTileConnection(int x, int y)
     
 }
 
+/**
+ * Affiche l'echiquier avec le fitness de chaque case
+ */
 void ChessBoard::DrawTileFitness(void)
 {
     for(int i = 0; i < N; i++)
@@ -180,29 +195,43 @@ void ChessBoard::DrawTileFitness(void)
     }    
 }
 
-//int ChessBoard::PlaceQueens(int* queenList)
-//{
-    /*int currentNeighbor;
-    int nbQueen = 0;
+/**
+ * Calcul le fitness d'un chromosome (une liste de reine) avec temps de calcul
+ * @param queenList Liste de reine d'un chromosome
+ * @param tmpCalcul Temps de calcul
+ * @return  La valeur de la fitness soit le nombre de conflit total
+ */
+int ChessBoard::CalculateFitness(int* queenList, unsigned long long &tmpCalcul)
+{
+    int currentNeighbor;
+    int fitness = 0;
+    
+    ResetChessBoard();
     
     for(int index = 0; index < N; index++)
     {
-        if(tiles[index][queenList[index]]->GetIsTargeted())
+        for(int indexNeighbor = 0; indexNeighbor < tiles[index][queenList[index]]->GetNbNeighbors(); indexNeighbor++)
         {
-            tiles[index][queenList[index]]->SetIsQueen(true);
-            nbQueen++;
-            tiles[index][queenList[index]]->SetIsTargeted(true);
-            for(int indexNeighbor = 0; indexNeighbor < tiles[index][queenList[index]]->GetNbNeighbors(); indexNeighbor++)
-            {
-                currentNeighbor = tiles[index][queenList[index]]->GetNeighbor(indexNeighbor);
-                tiles[currentNeighbor/N][currentNeighbor%N]->SetIsTargeted(true);
-            }
+            tmpCalcul++;
+            currentNeighbor = tiles[index][queenList[index]]->GetNeighbor(indexNeighbor);
+            tiles[currentNeighbor/N][currentNeighbor%N]->SetNbConflict(tiles[currentNeighbor/N][currentNeighbor%N]->GetNbConflict()+1);
         }
     }
     
-    return nbQueen;*/
-//}   
+    for(int index = 0; index < N; index++)
+    {
+        fitness += tiles[index][queenList[index]]->GetNbConflict();
+    }
+    
+    return fitness;
+    
+}
 
+/**
+ * Calcul le fitness d'un chromosome (une liste de reine)
+ * @param queenList Liste de reine d'un chromosome
+ * @return  La valeur de la fitness soit le nombre de conflit total
+ */
 int ChessBoard::CalculateFitness(int* queenList)
 {
     int currentNeighbor;
@@ -225,9 +254,11 @@ int ChessBoard::CalculateFitness(int* queenList)
     }
     
     return fitness;
-    
 }
 
+/**
+ * Efface les données utilisée lors des calculs
+ */
 void ChessBoard::ResetChessBoard(void)
 {
     for(int i = 0 ; i < N; i++)
@@ -238,4 +269,31 @@ void ChessBoard::ResetChessBoard(void)
             //tiles[i][j]->SetIsQueen(false);
         }
     }
+}
+
+/**
+ * Dessine l'echiquier d'un chromosome 
+ * @param queenList Un chromosome (liste de reines)
+ */
+void ChessBoard::DrawQueens(int * queenList)
+{
+    int queenPos;
+    
+    for(int i = 0; i < N; i++)
+    {
+        cout << " ";
+        queenPos = queenList[i];
+        for(int j = 0; j < N; j++)
+        {
+            if(j==queenPos)
+            {
+                cout << "Q";
+            }
+            else
+            {
+                cout << ".";
+            }
+        }
+        cout << endl;
+    }    
 }

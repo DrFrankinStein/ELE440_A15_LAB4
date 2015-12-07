@@ -19,9 +19,11 @@ public:
     
     void DrawTileConnection(int x, int y);
     int PlaceQueens(int* queenList);
+    int CalculateFitness(int* queenList, unsigned long long &tmpCalcul);
     int CalculateFitness(int* queenList);
     void ResetChessBoard(void);
     void DrawTileFitness(void);
+    void DrawQueens(int * queenList);
     
 private:
     
